@@ -71,11 +71,11 @@ class Attendencecontroller extends GetxController {
         if (response.statusCode == 200) {
           final extractedData = jsonDecode(response.body);
 
-          attendenceReponse.id = extractedData["id"];
+          // attendenceReponse.id = extractedData["id"];
           attendenceReponse.errorMsg = extractedData["errorMsg"];
 
           if (attendenceReponse.errorMsg == null) {
-            box.write("Id", attendenceReponse.id);
+            // box.write("Id", attendenceReponse.id);
           }
 
           box.write('lastMarkedDate', today.toIso8601String());
@@ -142,6 +142,6 @@ class Attendencecontroller extends GetxController {
       } else {
         print("Something went wrong");
       }
-    }
+    } 
   }
 }

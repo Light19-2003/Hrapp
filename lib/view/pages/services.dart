@@ -8,6 +8,8 @@ import 'package:hrapp/Themecolor/Palette.dart';
 import 'package:hrapp/Themecolor/appimages.dart';
 
 import 'package:hrapp/view/Attendence/Attendencescrenn.dart';
+import 'package:hrapp/view/TimeSheet/Time_Sheet_Details.dart';
+import 'package:hrapp/view/TimeSheet/Time_screen.dart';
 import 'package:hrapp/view/leaveapply/FulldayLeave.dart';
 
 import 'package:hrapp/view/pages/Halffrom.dart';
@@ -179,6 +181,34 @@ class ServicesPage extends StatelessWidget {
                     ),
                   ],
                 ),
+                // Serviceswid(
+                //   ontap: () {
+                //     Get.to(() => TimeSheetDetails());
+                //   },
+                //   image: Appimages.attendence,
+                //   title: 'TimeSheet',
+                //   icon: Icon(
+                //     FontAwesomeIcons.person,
+                //     color: Colors.white,
+                //   ),
+                // ),
+                // Row(
+                //   // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+
+                //   children: [
+                //     Serviceswid(
+                //       ontap: () {
+                //         Get.to(() => TimeSheetDetails());
+                //       },
+                //       image: Appimages.attendence,
+                //       title: 'TimeSheet',
+                //       icon: Icon(
+                //         FontAwesomeIcons.person,
+                //         color: Colors.white,
+                //       ),
+                //     ),
+                //   ],
+                // )
                 // Row(
                 //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 //   children: [

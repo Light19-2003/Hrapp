@@ -789,6 +789,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.5"
+  s_banner:
+    dependency: "direct main"
+    description:
+      name: s_banner
+      sha256: "29c467a07444dc4dac0fe00cc9cc84ed65dc598f4df0f7a72d5391b39a30e683"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.4"
   shared_preferences:
     dependency: transitive
     description:

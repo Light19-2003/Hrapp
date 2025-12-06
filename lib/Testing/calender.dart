@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:hrapp/controller/AddJustLeaveontroller.dart';
 import 'package:hrapp/controller/AttendenceRecords.dart';
+import 'package:hrapp/controller/GetTimeSheetController.dart';
 import 'package:hrapp/controller/TimeLineController.dart';
+import 'package:http/http.dart';
 
 class YearMonthPicker extends StatefulWidget {
   @override
@@ -20,6 +22,8 @@ class _YearMonthPickerState extends State<YearMonthPicker> {
     // Timelinecontroller timelinecontroller = Get.put(Timelinecontroller());
     // attendencerecords.monthTypeId = 5;
     // attendencerecords.yearid = 2025;
+    Gettimesheetcontroller gettimesheetcontroller =
+        Get.put(Gettimesheetcontroller());
     return Scaffold(
       appBar: AppBar(
         title: Text('Year and Month Picker'),
@@ -37,6 +41,7 @@ class _YearMonthPickerState extends State<YearMonthPicker> {
               // attendencerecords.getAttendenceRecords();
               // addjustleave.addjustleave("1", 'Rejected');
               // timelinecontroller.getTimeline(13, 30130);
+              gettimesheetcontroller.GetTimeSheet();
             },
             child: Text("Pick Month & Year"),
           ),

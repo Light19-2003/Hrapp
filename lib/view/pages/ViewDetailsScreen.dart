@@ -94,7 +94,7 @@ class _ViewdetailsscreenState extends State<Viewdetailsscreen> {
                     padding: const EdgeInsets.only(
                       left: 10,
                       right: 10,
-                    ),
+                    ), 
                     child: Text(
                       "Employee Name",
                       style: TextStyle(color: Colors.grey[500], fontSize: 12),

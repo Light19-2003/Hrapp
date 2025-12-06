@@ -15,6 +15,7 @@ import 'package:hrapp/Themecolor/Palette.dart';
 import 'package:hrapp/controller/LoginController.dart';
 import 'package:hrapp/view/Auth_Screen/Auth.dart';
 import 'package:hrapp/view/Auth_Screen/UserCheack.dart';
+import 'package:hrapp/view/TimeSheet/Time_screen.dart';
 
 import 'package:hrapp/view/navbar.dart';
 
