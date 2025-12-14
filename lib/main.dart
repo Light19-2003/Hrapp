@@ -11,6 +11,8 @@ import 'package:hrapp/Login/NewLoginScreen.dart';
 import 'package:hrapp/Testing/TimeLine.dart';
 
 import 'package:hrapp/Themecolor/Palette.dart';
+import 'package:hrapp/controller/DashboardController.dart';
+import 'package:hrapp/controller/GetTimeSheetController.dart';
 
 import 'package:hrapp/controller/LoginController.dart';
 import 'package:hrapp/view/Auth_Screen/Auth.dart';
@@ -59,6 +61,7 @@ void main() async {
   // Other initializations
   HttpOverrides.global = MyHttpOverrides();
   await GetStorage.init();
+  Get.put(Gettimesheetcontroller(), permanent: true);
 
   runApp(const MyApp());
 }
@@ -103,12 +106,16 @@ class MyApp extends StatelessWidget {
     // }
 
     if (appcode == null) {
+      // First time user (no app code)
       initialScreen = UserCheack();
-    } else if (userid == null && isauth == false) {
+    } else if (userid == null) {
+      // App code exists but user not logged in
       initialScreen = Newloginscreen();
-    } else if (userid != null && isauth == true) {
+    } else if (isauth) {
+      // Logged in but authentication pending (OTP / biometrics)
       initialScreen = AuthScreen();
     } else {
+      // Fully logged-in user
       initialScreen = Navbar();
     }
 

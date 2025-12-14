@@ -91,7 +91,7 @@ class Approverdetailswid extends StatelessWidget {
                       Align(
                           alignment: Alignment.center,
                           child: Text(
-                            "Leave Request",
+                            "${approvalDetails.screenname}",
                             style: TextStyle(fontWeight: FontWeight.bold),
                           )),
 

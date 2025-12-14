@@ -66,7 +66,7 @@
 
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>This app needs access to your location to show map and GPS-based features.</string>
-
+ 
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
 	<string>This app needs your location even in the background for navigation features.</string>
 

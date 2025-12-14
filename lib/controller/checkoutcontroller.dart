@@ -31,7 +31,7 @@ class Checkoutcontroller extends GetxController {
 
     DateTime currentDateTime = DateTime.now();
     int empid = logincontroller.box.read("UserId");
-    int? id = attendencecontroller.box.read('Id');
+    final  id = attendencecontroller.box.read('Id');
 
     // To display only the time in "hh:mm a" format (e.g., "08:30 PM")
     String timeOnly = DateFormat('hh:mm a').format(DateTime.now());

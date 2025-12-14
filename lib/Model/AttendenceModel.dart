@@ -11,5 +11,5 @@ class AttendenceRes {
   String? errorMsg;
   bool? attendancemark;
 
-  int? id;
+   String? id;
 }

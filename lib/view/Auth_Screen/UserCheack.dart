@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get/get_state_manager/get_state_manager.dart';
 import 'package:get/instance_manager.dart';
+import 'package:hrapp/Login/ContactUsScreen.dart';
 import 'package:hrapp/Themecolor/Palette.dart';
 import 'package:hrapp/controller/AppCodeController.dart';
 
@@ -102,6 +103,22 @@ class UserCheack extends StatelessWidget {
                     ],
                   ),
                 ),
+              ),
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("New User?", style: TextStyle(color: Colors.black)),
+                  TextButton(
+                    onPressed: () {
+                      Get.to(() => Contactusscreen());
+                    },
+                    child:
+                        Text("Sign Up", style: TextStyle(color: Colors.blue)),
+                  ),
+                ],
               )
             ],
           ),

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:hrapp/common/Help_function.dart';
+
 import 'package:hrapp/controller/DashboardController.dart';
 import 'package:hrapp/controller/GetTimeSheetController.dart';
-import 'package:hrapp/view/TimeSheet/Time_Sheet_Details.dart';
+
 import 'package:hrapp/view/TimeSheet/Time_screen.dart';
 
 class Darfttimesheet extends StatelessWidget {
@@ -12,11 +12,11 @@ class Darfttimesheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final Dashboardcontroller dashboardcontroller =
-        Get.put(Dashboardcontroller());
+    // final Gettimesheetcontroller gettimesheetcontroller =
+    //     Get.put(Gettimesheetcontroller());
 
-    Gettimesheetcontroller gettimesheetcontroller =
-        Get.put(Gettimesheetcontroller());
+    final Gettimesheetcontroller gettimesheetcontroller =
+        Get.find<Gettimesheetcontroller>(); //
 
     return Scaffold(
         backgroundColor: const Color(0xfff5f6fa),
@@ -131,6 +131,8 @@ class Darfttimesheet extends StatelessWidget {
                     );
                   },
                 );
-        }));
+        }
+        )
+        );
   }
 }

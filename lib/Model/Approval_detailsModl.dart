@@ -32,6 +32,7 @@ class ApprovalDetails {
   String? Status;
 
   ApprovalLeaveModel? approvalLeaveModel;
+  List<ApprovalTimeSheetDetails>? appTimeSheet;
 }
 
 class Approval_DetailsResponse {

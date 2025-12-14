@@ -181,17 +181,17 @@ class ServicesPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                // Serviceswid(
-                //   ontap: () {
-                //     Get.to(() => TimeSheetDetails());
-                //   },
-                //   image: Appimages.attendence,
-                //   title: 'TimeSheet',
-                //   icon: Icon(
-                //     FontAwesomeIcons.person,
-                //     color: Colors.white,
-                //   ),
-                // ),
+                Serviceswid(
+                  ontap: () {
+                    Get.to(() => TimeSheetDetails());
+                  },
+                  image: Appimages.TimeSheet,
+                  title: 'TimeSheet',
+                  icon: Icon(
+                    FontAwesomeIcons.person,
+                    color: Colors.white,
+                  ),
+                ),
                 // Row(
                 //   // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
 

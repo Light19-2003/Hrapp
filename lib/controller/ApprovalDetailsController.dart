@@ -1,20 +1,17 @@
 import 'dart:convert';
-
-import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:get/get_state_manager/src/simple/get_controllers.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:hrapp/Model/Approval_detailsModl.dart';
 import 'package:hrapp/Model/approvalleavemodel.dart';
-import 'package:hrapp/controller/Attendencecontroller.dart';
 import 'package:http/http.dart' as http;
 
 class Approvaldetailscontroller extends GetxController {
   var approvalerlist = <ApprovalDetails>[].obs;
+  var isLoading = false.obs;
   RxInt count = 0.obs;
-  var isLoading = false.obs; // 🔥 Add this line
 
   Approval_DetailsResponse approval_detailsResponse =
       Approval_DetailsResponse();
-  int? empid = logincontroller.box.read("UserId");
 
   @override
   void onInit() {
@@ -24,89 +21,89 @@ class Approvaldetailscontroller extends GetxController {
 
   Future<void> GetApprovaldetails() async {
     try {
-      isLoading.value = true; // 🔥 Start loading
+      GetStorage box = GetStorage();
+      int? empid = box.read("UserId");
+      isLoading.value = true;
 
       String url =
-          "http://rshrmsapapi.redsecure.online/api/HRMSWEBAPI/ApprovalDetails?empid=$empid&authcode=${logincontroller.box.read('AppCode')}";
+          "http://rshrmsapapi.redsecure.online/api/HRMSWEBAPI/ApprovalDetails?empid=$empid&authcode=${box.read('AppCode')}";
 
-      final response = await http.post(
+      var response = await http.post(
         Uri.parse(url),
         headers: {"Content-Type": "application/json"},
       );
 
       if (response.statusCode == 200) {
-        final data = jsonDecode(response.body);
+        final result = jsonDecode(response.body);
+
         approvalerlist.clear();
 
-        approval_detailsResponse.isError = data["isError"];
-        approval_detailsResponse.errorMsg = data["errorMsg"];
+        final listData = result["approval_Details"] ?? [];
 
-        final applist = data["approval_Details"];
+        for (var item in listData) {
+          ApprovalDetails model = ApprovalDetails();
 
-        for (var element in applist) {
-          ApprovalDetails approvalDetails = ApprovalDetails();
+          // BASE DETAILS
+          model.id = item["Id"];
+          model.groupID = item["GroupId"];
+          model.screenname = item["screenname"];
+          model.appdetails = item["appdetails"];
+          model.screenID = item["ScreenID"];
+          model.recordID = item["RecordID"];
 
-          approvalDetails.id = element["Id"];
-          approvalDetails.screenname = element["screenname"];
-          approvalDetails.groupID = element["GroupId"];
-          approvalDetails.appdetails = element["appdetails"];
-          approvalDetails.screenID = element["ScreenID"];
-          approvalDetails.recordID = element["RecordID"];
+          // LEAVE MODEL
+          var leave = item["ApprovelLeaveDetails"];
 
-          final approvalleavedetails = element["ApprovelLeaveDetails"];
           ApprovalLeaveModel leaveModel = ApprovalLeaveModel();
+          leaveModel.leaveRequestID = leave["LeaveRequestID"];
+          leaveModel.requestDate = DateTime.tryParse(leave["RequestDate"]);
+          leaveModel.fromDate = DateTime.tryParse(leave["FromDate"]);
+          leaveModel.toDate = DateTime.tryParse(leave["ToDate"]);
+          leaveModel.leaveDays = leave["LeaveDays"];
+          leaveModel.empID = leave["EmpID"];
+          leaveModel.leaveType = leave["LeaveType"];
+          leaveModel.leave_Type = leave["Leave_Type"];
+          leaveModel.employeeName = leave["EmployeeName"];
+          leaveModel.department = leave["Department"];
+          leaveModel.designation = leave["Designation"];
+          leaveModel.remarks = leave["Remarks"];
+          leaveModel.wfStatus = leave["WFStatus"];
+          leaveModel.balance = (leave["Balance"] ?? 0.0).toDouble();
+          leaveModel.balanceBefore = (leave["BalanceBefore"] ?? 0.0).toDouble();
+          leaveModel.additionalLeaveMessage = leave["AdditionalLeaveMessage"];
+          leaveModel.isSubmit = leave["isSubmit"];
 
-          leaveModel.leaveRequestID = approvalleavedetails["LeaveRequestID"];
-          leaveModel.requestDate =
-              DateTime.tryParse(approvalleavedetails["RequestDate"] ?? '');
-          leaveModel.fromDate =
-              DateTime.tryParse(approvalleavedetails["FromDate"] ?? '');
-          leaveModel.toDate =
-              DateTime.tryParse(approvalleavedetails["ToDate"] ?? '');
-          leaveModel.leaveDays = approvalleavedetails["LeaveDays"];
-          leaveModel.empID = approvalleavedetails["EmpID"];
-          leaveModel.leaveType = approvalleavedetails["LeaveType"];
-          leaveModel.leave_Type = approvalleavedetails["Leave_Type"] ?? '';
-          leaveModel.requiredDocument =
-              approvalleavedetails["RequiredDocument"] ?? '';
-          leaveModel.contactDetails =
-              approvalleavedetails["ContactDetails"] ?? '';
-          leaveModel.dateOfReturning =
-              DateTime.tryParse(approvalleavedetails["DateOfReturning"] ?? '');
-          leaveModel.duration = approvalleavedetails["Duration"] ?? '';
-          leaveModel.departureDate =
-              approvalleavedetails["DepartureDate"] ?? '';
-          leaveModel.arrivalDate = approvalleavedetails["ArrivalDate"] ?? '';
-          leaveModel.destination = approvalleavedetails["Destination"] ?? '';
-          leaveModel.employeeName = approvalleavedetails["EmployeeName"] ?? '';
-          leaveModel.department = approvalleavedetails["Department"] ?? '';
-          leaveModel.dateOfJoining =
-              DateTime.tryParse(approvalleavedetails["DateOfJoining"] ?? '');
-          leaveModel.designation = approvalleavedetails["Designation"] ?? '';
-          leaveModel.balance =
-              (approvalleavedetails["Balance"] ?? 0).toDouble();
-          leaveModel.balanceBefore =
-              (approvalleavedetails["BalanceBefore"] ?? 0).toDouble();
-          leaveModel.empSig = approvalleavedetails["EmpSig"] ?? '';
-          leaveModel.remarks = approvalleavedetails["Remarks"] ?? '';
-          leaveModel.wfStatus = approvalleavedetails["WFStatus"] ?? '';
-          leaveModel.lrForm = approvalleavedetails["LR_Form"] ?? '';
-          leaveModel.additionalLeaveMessage =
-              approvalleavedetails["AdditionalLeaveMessage"] ?? '';
-          leaveModel.isSubmit = approvalleavedetails["isSubmit"] ?? false;
-          leaveModel.emailWork = approvalleavedetails["Email_Work"] ?? '';
+          model.approvalLeaveModel = leaveModel;
 
-          approvalDetails.approvalLeaveModel = leaveModel;
-          approvalerlist.add(approvalDetails);
+          // TIMESHEET LIST
+          List timesheetList = item["approvalTimeSheetDetails"] ?? [];
+
+          List<ApprovalTimeSheetDetails> tempSheetList = [];
+
+          for (var sheet in timesheetList) {
+            ApprovalTimeSheetDetails tSheet = ApprovalTimeSheetDetails();
+
+            /// JSON data EXACT KEY MATCHES 🚀
+            tSheet.Task = sheet["Task"] ?? '';
+            tSheet.time = sheet["TotalHour"] ?? '';
+            tSheet.ProjectCode = sheet["projectCode"] ?? '';
+            tSheet.Notes = sheet["code"] ?? '';
+
+            tempSheetList.add(tSheet);
+          }
+
+          model.appTimeSheet = tempSheetList;
+
+          approvalerlist.add(model);
         }
 
         count.value = approvalerlist.length;
         approval_detailsResponse.approvaldetails = approvalerlist;
       }
-    } catch (ex) {
-      print(ex.toString());
+    } catch (e) {
+      print("Error: $e");
     } finally {
-      isLoading.value = false; // 🔥 Stop loading
+      isLoading.value = false;
     }
   }
 }

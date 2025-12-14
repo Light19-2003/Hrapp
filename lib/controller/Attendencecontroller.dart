@@ -71,11 +71,18 @@ class Attendencecontroller extends GetxController {
         if (response.statusCode == 200) {
           final extractedData = jsonDecode(response.body);
 
-          // attendenceReponse.id = extractedData["id"];
-          attendenceReponse.errorMsg = extractedData["errorMsg"];
+          attendenceReponse.id = extractedData["attid"];
 
+          print(attendenceReponse.id);
+          attendenceReponse.errorMsg = extractedData["errorMsg"];
+          RegExp regExp = RegExp(r"AttendanceID:\s*(\d+)");
+          Match? match = regExp.firstMatch(attendenceReponse.id!);
+
+          String attendanceId = match?.group(1) ?? "";
+
+          print("Attendance ID: $attendanceId");
           if (attendenceReponse.errorMsg == null) {
-            // box.write("Id", attendenceReponse.id);
+            box.write("Id", attendenceReponse.id);
           }
 
           box.write('lastMarkedDate', today.toIso8601String());
@@ -142,6 +149,6 @@ class Attendencecontroller extends GetxController {
       } else {
         print("Something went wrong");
       }
-    } 
+    }
   }
 }

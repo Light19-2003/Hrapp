@@ -38,9 +38,7 @@ Widget BuildText(String label) {
   );
 }
 
-
 var projectList = <String>[
-  "Please Select",
   "RS HRMS",
   "Mada HRMS",
   "RS HRMS DEMO",
@@ -57,7 +55,6 @@ var projectList = <String>[
   "Mada Corporate Aggregator API",
   "FixAts",
 ].obs;
-
 
 Widget buildInputField({
   required String label,
@@ -121,6 +118,33 @@ Widget buildInputField({
           ),
         ),
       ],
+    ),
+  );
+}
+
+var selectedProject = ''.obs;
+Widget projectDropdown({
+  required RxString selectedValue,
+  required List<String> items,
+  double fontSize = 14,
+}) {
+  return Obx(
+    () => DropdownButton<String>(
+      value: items.contains(selectedValue.value) ? selectedValue.value : null,
+      isExpanded: true,
+      hint: const Text("Select Project"),
+      items: items.map((value) {
+        return DropdownMenuItem<String>(
+          value: value,
+          child: Text(
+            value,
+            style: TextStyle(fontSize: fontSize),
+          ),
+        );
+      }).toList(),
+      onChanged: (value) {
+        if (value != null) selectedValue.value = value;
+      },
     ),
   );
 }

@@ -28,3 +28,10 @@ class ApprovalLeaveModel {
   bool? isSubmit;
   String? emailWork;
 }
+
+class ApprovalTimeSheetDetails {
+  String? Task;
+  String? time;
+  String? ProjectCode;
+  String? Notes;
+}

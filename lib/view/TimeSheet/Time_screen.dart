@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:get/get.dart';
 import 'package:hrapp/Themecolor/Palette.dart';
 import 'package:hrapp/common/Help_function.dart';
 import 'package:hrapp/controller/DashboardController.dart';
 import 'package:hrapp/controller/GetTimeSheetController.dart';
-import 'package:hrapp/view/TimeSheet/Time_Sheet_Details.dart';
 import 'package:intl/intl.dart';
 
 class Time_Sheet_Screen extends StatefulWidget {
@@ -17,291 +17,345 @@ class Time_Sheet_Screen extends StatefulWidget {
 }
 
 class _Time_Sheet_ScreenState extends State<Time_Sheet_Screen> {
-  @override
   final Gettimesheetcontroller gettimesheetcontroller =
-      Get.put(Gettimesheetcontroller());
+      Get.find<Gettimesheetcontroller>(); // ✔ use find now
 
   final Dashboardcontroller dashboardcontroller =
       Get.put(Dashboardcontroller());
+
+  @override
   void initState() {
     super.initState();
 
-    // 👇 This will run automatically once when page open
-    gettimesheetcontroller.FetchTimeSheet(widget.TimeId!);
+    Future.delayed(Duration.zero, () {
+      gettimesheetcontroller.FetchTimeSheet(widget.TimeId!); // Auto fetch
+    });
   }
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("TimeSheet"),
+        title: const Text("TimeSheet"),
       ),
       body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  padding: EdgeInsets.all(5),
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.grey.shade300)),
-                  child: Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          buildLabel("Employee Name :"),
-                          BuildText(profilecontroller.profilemodel.empname
-                              .toString()),
-                        ],
-                      ),
-                      Divider(
-                        indent: 15,
-                        endIndent: 15,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          buildLabel("Work Date :"),
-                          BuildText(
-                              '${DateFormat('dd-MM-yyyy').format(DateTime.now())}'),
-                        ],
-                      ),
-                      Divider(
-                        indent: 15,
-                        endIndent: 15,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          buildLabel("Clock IN -Clock OUT:"),
-                          BuildText(
-                              '${dashboardcontroller.getTime.signin} - ${dashboardcontroller.getTime.signout}'),
-                        ],
-                      ),
-                      Divider(
-                        indent: 15,
-                        endIndent: 15,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          buildLabel("Total Hours :"),
-                          BuildText(getTotalHours(
-                              '${dashboardcontroller.getTime.signin}',
-                              '${dashboardcontroller.getTime.signout}')),
-                        ],
-                      )  ,
-
-                      /// Task Details
-                      ///
-                    ],
-                  ),
+              /// TOP CARD — Clock Details
+              Container(
+                margin: const EdgeInsets.all(8),
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(color: Colors.grey.shade300),
                 ),
-              ),
-              const Text(
-                "Task Details",
-                style: TextStyle(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black87,
-                ),
-              ),
-              const SizedBox(height: 12),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Container(
-                  padding: EdgeInsets.all(5),
-                  width: MediaQuery.of(context).size.width,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.grey.shade300)),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      buildInputField(
-                          label: "Task Name",
-                          controller: gettimesheetcontroller.taskcontroller),
-                      Divider(
-                        indent: 20,
-                        endIndent: 20,
-                      ),
-                      buildInputField(
-                          label: "Time(In Hours)",
-                          controller:
-                              gettimesheetcontroller.totalhourcontroller),
-                      Divider(
-                        indent: 20,
-                        endIndent: 20,
-                      ),
-                      buildInputField(
-                          label: "Project Code",
-                          controller:
-                              gettimesheetcontroller.projectcodecontroller),
-                      Divider(
-                        indent: 20,
-                        endIndent: 20,
-                      ),
-                      buildInputField(
-                          label: "Notes",
-                          controller: gettimesheetcontroller.notescontroller),
-                      Obx(
-                        () => Center(
-                          child: gettimesheetcontroller.isLoading.value
-                              ? const CircularProgressIndicator.adaptive()
-                              : ElevatedButton.icon(
-                                  onPressed: () {
-                                    gettimesheetcontroller.PostTimeSheet(
-                                        widget.TimeId!);
-
-                                    // gettimesheetcontroller.FetchTimeSheet(
-                                    //     widget.TimeId!);
-                                  },
-                                  icon: const Icon(Icons.save),
-                                  label: const Text("Save"),
-                                ),
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        buildLabel("Work Date :"),
+                        BuildText(
+                            DateFormat('dd-MM-yyyy').format(DateTime.now())),
+                      ],
+                    ),
+                    const Divider(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        buildLabel("Clock IN - Clock OUT:"),
+                        BuildText(
+                          "${dashboardcontroller.getTime.signin ?? ''} - ${dashboardcontroller.getTime.signout ?? ''}",
                         ),
-                      ),
-
-                      //// timeSheet Entry
-
-                      Divider(
-                        indent: 10,
-                        endIndent: 10,
-                      ),
-                      SizedBox(
-                          height: 200,
-                          child: Obx(
-                            () => gettimesheetcontroller.isFetchLoading.value
-                                ? Center(
-                                    child: CircularProgressIndicator.adaptive(),
-                                  )
-                                : ListView.builder(
-                                    itemCount: gettimesheetcontroller
-                                        .FeatchtimeSheetList.length,
-                                    shrinkWrap: true,
-                                    itemBuilder: (context, index) {
-                                      final timesheetlist =
-                                          gettimesheetcontroller
-                                              .FeatchtimeSheetList[index];
-                                      return Container(
-                                        margin:
-                                            const EdgeInsets.only(bottom: 14),
-                                        padding: const EdgeInsets.all(16),
-                                        decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius:
-                                              BorderRadius.circular(14),
-                                          boxShadow: [
-                                            BoxShadow(
-                                              color: Colors.redAccent.withOpacity(
-                                                  0.2), // more visible shadow
-                                              blurRadius: 1, // smooth blur
-                                              spreadRadius: 1, // soft expansion
-                                              offset: const Offset(0, 2),
-                                            ),
-                                          ],
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            // DATE ICON + DATE
-                                            const Icon(Icons.calendar_month,
-                                                color: Colors.blue, size: 28),
-                                            const SizedBox(width: 12),
-
-                                            Expanded(
-                                              child: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  Text(
-                                                    "${timesheetlist.task}",
-                                                    style: TextStyle(
-                                                      fontSize: 15,
-                                                      fontWeight:
-                                                          FontWeight.w700,
-                                                      color: Colors.black87,
-                                                    ),
-                                                  ),
-                                                  SizedBox(height: 4),
-                                                  Row(
-                                                    children: [
-                                                      Icon(Icons.access_time,
-                                                          size: 18,
-                                                          color: Colors.grey),
-                                                      SizedBox(width: 6),
-                                                      Text(
-                                                        "${timesheetlist.totalHour}",
-                                                        style: TextStyle(
-                                                          fontSize: 12,
-                                                          color: Colors.grey,
-                                                        ),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                            Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                SizedBox(height: 2),
-                                                Text(
-                                                  "${timesheetlist.projectCode}",
-                                                  style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: Colors.grey,
-                                                    fontWeight: FontWeight.w700,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                            SizedBox(
-                                              width: 20,
-                                            ),
-
-                                            // TOTAL HOURS
-                                            // Column(
-                                            //   crossAxisAlignment:
-                                            //       CrossAxisAlignment.end,
-                                            //   children: [
-                                            //     IconButton(
-                                            //       onPressed: () {
-                                            //         Get.to(() => Time_Sheet_Screen(
-                                            //               TimeId:
-                                            //                   timesheetlist.timesheetid,
-                                            //             ));
-                                            //       },
-                                            //       icon: Icon(Icons.edit,
-                                            //           size: 30,
-                                            //           color: Colors.deepOrangeAccent),
-                                            //     ),
-                                            //     SizedBox(height: 4),
-                                            //   ],
-                                            // ),
-                                          ],
-                                        ),
-                                      );
-                                    }),
-                          ))
-                    ],
-                  ),
+                      ],
+                    ),
+                    const Divider(),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        buildLabel("Total Hours :"),
+                        BuildText(
+                          (dashboardcontroller.getTime.signin?.isNotEmpty ??
+                                      false) &&
+                                  (dashboardcontroller
+                                          .getTime.signout?.isNotEmpty ??
+                                      false)
+                              ? getTotalHours(
+                                  dashboardcontroller.getTime.signin!,
+                                  dashboardcontroller.getTime.signout!,
+                                )
+                              : '0 Hrs',
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
               ),
+
+              const SizedBox(height: 10),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text(
+                    "Task Details",
+                    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  IconButton(
+                      onPressed: () {
+                        Get.dialog(
+                          Dialog(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Padding(
+                              padding: const EdgeInsets.all(16),
+                              child: SingleChildScrollView(
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    const Text(
+                                      "Add Task Details",
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                    const SizedBox(height: 16),
+
+                                    /// FORM UI INSIDE DIALOG
+                                    buildInputField(
+                                      label: "Task Name *",
+                                      controller:
+                                          gettimesheetcontroller.taskcontroller,
+                                    ),
+                                    divider(),
+                                    buildInputField(
+                                      label: "Time(In Hours) *",
+                                      controller: gettimesheetcontroller
+                                          .totalhourcontroller,
+                                    ),
+                                    divider(),
+
+                                    projectDropdown(
+                                        selectedValue: selectedProject,
+                                        items: projectList),
+
+                                    divider(),
+                                    // buildInputField(
+                                    //   label: "Project Code *",
+                                    //   controller: gettimesheetcontroller
+                                    //       .projectcodecontroller,
+                                    // ),
+
+                                    buildInputField(
+                                      label: "Notes *",
+                                      controller: gettimesheetcontroller
+                                          .notescontroller,
+                                    ),
+
+                                    const SizedBox(height: 20),
+
+                                    /// SAVE BUTTON
+                                    Obx(() {
+                                      return gettimesheetcontroller
+                                              .isLoading.value
+                                          ? const CircularProgressIndicator
+                                              .adaptive()
+                                          : ElevatedButton.icon(
+                                              icon: const Icon(Icons.save),
+                                              label: const Text("Save Task"),
+                                              onPressed: () async {
+                                                /// VALIDATION
+                                                if (gettimesheetcontroller
+                                                        .taskcontroller
+                                                        .text
+                                                        .isEmpty ||
+                                                    gettimesheetcontroller
+                                                        .totalhourcontroller
+                                                        .text
+                                                        .isEmpty ||
+                                                    selectedProject
+                                                        .value.isEmpty ||
+                                                    gettimesheetcontroller
+                                                        .notescontroller
+                                                        .text
+                                                        .isEmpty) {
+                                                  Get.snackbar(
+                                                    "Missing Information",
+                                                    "Please fill out all required fields.",
+                                                    snackPosition:
+                                                        SnackPosition.top,
+                                                    backgroundColor: Colors.red
+                                                        .withOpacity(0.8),
+                                                    colorText: Colors.white,
+                                                  );
+                                                  return;
+                                                }
+
+                                                /// SAVE DATA
+                                                await gettimesheetcontroller
+                                                    .PostTimeSheet(
+                                                        widget.TimeId!);
+
+                                                /// REFRESH LIST
+                                                gettimesheetcontroller
+                                                    .FetchTimeSheet(
+                                                        widget.TimeId!);
+
+                                                /// CLEAR CONTROLLERS
+                                                gettimesheetcontroller
+                                                    .taskcontroller
+                                                    .clear();
+                                                gettimesheetcontroller
+                                                    .totalhourcontroller
+                                                    .clear();
+                                                gettimesheetcontroller
+                                                    .projectcodecontroller
+                                                    .clear();
+                                                gettimesheetcontroller
+                                                    .notescontroller
+                                                    .clear();
+
+                                                /// CLOSE POPUP
+                                                Get.back();
+                                              },
+                                            );
+                                    }),
+
+                                    const SizedBox(height: 10),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      icon: Icon(Icons.add))
+                ],
+              ),
+              const SizedBox(height: 8),
+              divider(),
+              Obx(() {
+                if (gettimesheetcontroller.isFetchLoading.value) {
+                  return const Center(
+                      child: CircularProgressIndicator.adaptive());
+                }
+
+                if (gettimesheetcontroller.FeatchtimeSheetList.isEmpty) {
+                  return const Center(
+                    child: Text(
+                      "No TimeSheet Found",
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                      ),
+                    ),
+                  );
+                }
+
+                return SizedBox(
+                  height: 200,
+                  child: ListView.builder(
+                    itemCount:
+                        gettimesheetcontroller.FeatchtimeSheetList.length,
+                    itemBuilder: (context, index) {
+                      final sheet =
+                          gettimesheetcontroller.FeatchtimeSheetList[index];
+                      return Slidable(
+                        endActionPane: ActionPane(
+                          motion: ScrollMotion(),
+                          children: [
+                            SlidableAction(
+                              onPressed: (context) {
+                                gettimesheetcontroller.DeleteTimeSheet(
+                                    sheet.id!, sheet.TimesheetId!);
+                                // delete logic
+                              },
+                              backgroundColor: Colors.red,
+                              icon: Icons.delete,
+                              label: 'Delete',
+                            ),
+                          ],
+                        ),
+                        child: Container(
+                          margin: const EdgeInsets.only(bottom: 10),
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(14),
+                            boxShadow: [
+                              BoxShadow(
+                                  color: Colors.grey.withOpacity(0.2),
+                                  blurRadius: 4)
+                            ],
+                          ),
+                          child: Row(
+                            children: [
+                              const Icon(Icons.task,
+                                  size: 28, color: Colors.blue),
+                              const SizedBox(width: 12),
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(sheet.task ?? "",
+                                        style: const TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                    Text("${sheet.totalHour ?? ''} Hrs"),
+                                  ],
+                                ),
+                              ),
+                              Text(sheet.projectCode ?? "",
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.bold)),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                );
+              }),
+              SizedBox(height: 10),
+
+              ElevatedButton.icon(
+                  icon: const Icon(Icons.save),
+                  label: const Text("Sumbit"),
+                  onPressed: () {
+                    if (gettimesheetcontroller.FeatchtimeSheetList.isEmpty) {
+                      Get.snackbar(
+                        "TimeSheet is Incomplete",
+                        "Please fill out the TimeSheet.",
+                        snackPosition: SnackPosition.top,
+                        backgroundColor: Colors.red.withOpacity(0.8),
+                        colorText: Colors.white,
+                      );
+                      return;
+                    }
+
+                    gettimesheetcontroller.SumbitTimeSheet(widget.TimeId!);
+                  })
             ],
           ),
         ),
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {},
-        child: Text("Submit"),
-      ),
+      // floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     gettimesheetcontroller.SumbitTimeSheet(widget.TimeId!);
+      //     print("Button Clicked");
+      //   },
+      //   backgroundColor: Palette.Kmain,
+      //   child: const Text(
+      //     "Submit",
+      //     style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+      //   ),
+      // ),
     );
   }
+
+  Widget divider() => const Divider(
+        thickness: 1,
+        color: Colors.black12,
+      );
 }

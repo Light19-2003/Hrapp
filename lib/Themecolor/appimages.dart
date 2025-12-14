@@ -10,4 +10,6 @@ class Appimages {
   static const String attendence = '$path/Attendence-removebg-preview.png';
 
   static const String leave = '$path/leave (7).png';
+
+  static const String TimeSheet = '$path/TimeSheet.png';
 }

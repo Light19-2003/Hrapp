@@ -24,6 +24,7 @@ class _YearMonthPickerState extends State<YearMonthPicker> {
     // attendencerecords.yearid = 2025;
     Gettimesheetcontroller gettimesheetcontroller =
         Get.put(Gettimesheetcontroller());
+
     return Scaffold(
       appBar: AppBar(
         title: Text('Year and Month Picker'),
@@ -41,7 +42,7 @@ class _YearMonthPickerState extends State<YearMonthPicker> {
               // attendencerecords.getAttendenceRecords();
               // addjustleave.addjustleave("1", 'Rejected');
               // timelinecontroller.getTimeline(13, 30130);
-              gettimesheetcontroller.GetTimeSheet();
+              gettimesheetcontroller.DeleteTimeSheet(63,4);
             },
             child: Text("Pick Month & Year"),
           ),
