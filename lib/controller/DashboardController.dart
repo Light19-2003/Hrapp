@@ -110,7 +110,7 @@ class Dashboardcontroller extends GetxController {
         }
 
         // profilemodel.id = extractedData["UserProFileData"]["ID"];
-
+        getTime.AttendenceId = extractedData["gettimes"]["AttendenceID"];
         getTime.signin = extractedData["gettimes"]["singin"];
         getTime.signout = extractedData["gettimes"]["singout"];
 
@@ -182,7 +182,7 @@ class Dashboardcontroller extends GetxController {
           int seconds = difference.inSeconds % 60;
 
           // Print the difference
-          print('Difference: $hours hours, $minutes minutes, $seconds seconds');
+          // print('Difference: $hours hours, $minutes minutes, $seconds seconds');
         });
       } catch (e) {
         print("Error parsing time: $e");

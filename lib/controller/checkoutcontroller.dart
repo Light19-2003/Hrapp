@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 
 import 'package:hrapp/Model/Logoutmodel.dart';
 import 'package:hrapp/controller/Attendencecontroller.dart';
+import 'package:hrapp/controller/DashboardController.dart';
 import 'package:hrapp/controller/LoginController.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
@@ -13,6 +14,8 @@ import 'package:http/http.dart' as http;
 final Logincontroller logincontroller = Get.put(Logincontroller());
 
 Attendencecontroller attendencecontroller = Get.put(Attendencecontroller());
+
+Dashboardcontroller dashboardcontroller = Get.put(Dashboardcontroller());
 
 class Checkoutcontroller extends GetxController {
   RxBool isloading = false.obs;
@@ -31,7 +34,7 @@ class Checkoutcontroller extends GetxController {
 
     DateTime currentDateTime = DateTime.now();
     int empid = logincontroller.box.read("UserId");
-    final  id = attendencecontroller.box.read('Id');
+    final id = attendencecontroller.box.read('Id');
 
     // To display only the time in "hh:mm a" format (e.g., "08:30 PM")
     String timeOnly = DateFormat('hh:mm a').format(DateTime.now());
@@ -39,13 +42,12 @@ class Checkoutcontroller extends GetxController {
     print(id);
     Map<String, dynamic> attendence = {
       'empId': empid,
-      'id': id,
+      'id': dashboardcontroller.getTime.AttendenceId!,
       // 'loginTime': "${DateFormat('dd MMM yyyy').format(today)} 08:00:00",
       'logoutTime': timeOnly,
       'chkinlat': "${currentLatLong.latitude}",
       'chkinlong': "${currentLatLong.longitude}",
     };
-    
 
     print(attendence);
 

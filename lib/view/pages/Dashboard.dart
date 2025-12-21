@@ -724,17 +724,6 @@ class _DashboardPageState extends State<DashboardPage> {
                                                           setState(
                                                               () {}); // Refresh the widget after marking attendance
                                                         });
-                                                      } else {
-                                                        Get.snackbar(
-                                                          "Attendance",
-                                                          "Already marked attendance!",
-                                                          snackPosition:
-                                                              SnackPosition.top,
-                                                          backgroundColor:
-                                                              Colors.red,
-                                                          colorText:
-                                                              Colors.white,
-                                                        );
                                                       }
                                                     },
                                                     child: Container(

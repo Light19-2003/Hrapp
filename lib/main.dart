@@ -106,16 +106,16 @@ class MyApp extends StatelessWidget {
     // }
 
     if (appcode == null) {
-      // First time user (no app code)
+      // First-time app setup
       initialScreen = UserCheack();
     } else if (userid == null) {
-      // App code exists but user not logged in
+      // App configured but user not logged in
       initialScreen = Newloginscreen();
-    } else if (isauth) {
-      // Logged in but authentication pending (OTP / biometrics)
+    } else if (isauth == true) {
+      // User logged in but biometric not verified
       initialScreen = AuthScreen();
     } else {
-      // Fully logged-in user
+      // Fully authenticated
       initialScreen = Navbar();
     }
 

@@ -43,6 +43,7 @@ class UpcomingBrithday {
 }
 
 class GetTime {
+  int? AttendenceId;
   String? signin;
   String? signout;
 }
