@@ -49,7 +49,7 @@ class AuthScreen extends StatelessWidget {
                     SizedBox(height: 20),
 
                     Text(
-                      "Scan Your Fingerprint",
+                      "Scan Your Biometric",
                       style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.bold,

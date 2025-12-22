@@ -43,7 +43,7 @@ class _NavbarState extends State<Navbar> {
                   Icon(Icons.fingerprint, size: 48, color: Colors.blue),
                   const SizedBox(height: 16),
                   const Text(
-                    "Do you want to add the Fingerprint?",
+                    "Do you want to add the Biometric?",
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,

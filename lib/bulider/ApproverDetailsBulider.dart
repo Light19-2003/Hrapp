@@ -17,7 +17,7 @@ class Approverdetailsbulider extends StatelessWidget {
     return Obx(() {
       if (approvaldetailscontroller.approvalerlist.isEmpty) {
         return Center(
-          child: Text("You do not have permission to approve the leave"),
+          child: Text("No New Nofication "),
         );
       } else {
         return ListView.builder(

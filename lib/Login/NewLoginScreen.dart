@@ -12,7 +12,7 @@ class Newloginscreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Profilecontroller profilecontroller = Get.put(Profilecontroller());
+   
     final Login = Get.put(Logincontroller());
     return Scaffold(
         backgroundColor: Palette.Kwhite,
