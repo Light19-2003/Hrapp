@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" 
+    "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+    <!-- App Identity -->
     <key>CFBundleDevelopmentRegion</key>
     <string>$(DEVELOPMENT_LANGUAGE)</string>
     
     <key>CFBundleDisplayName</key>
-    <string>Hrapp</string>
+    <string>RS-hrms</string>
 
     <key>CFBundleExecutable</key>
     <string>$(EXECUTABLE_NAME)</string>
@@ -18,7 +20,7 @@
     <string>6.0</string>
 
     <key>CFBundleName</key>
-    <string>hrapp</string>
+    <string>RS-hrms</string>
 
     <key>CFBundlePackageType</key>
     <string>APPL</string>
@@ -27,7 +29,7 @@
     <string>$(FLUTTER_BUILD_NAME)</string>
 
     <key>CFBundleSignature</key>
-    <string>????</string>
+    <string>RShr</string> <!-- Fixed 4-character signature -->
 
     <key>CFBundleVersion</key>
     <string>$(FLUTTER_BUILD_NUMBER)</string>
@@ -38,9 +40,7 @@
     <key>UILaunchStoryboardName</key>
     <string>LaunchScreen</string>
 
-    <key>UIMainStoryboardFile</key>
-    <string>Main</string>
-
+    <!-- Supported orientations -->
     <key>UISupportedInterfaceOrientations</key>
     <array>
         <string>UIInterfaceOrientationPortrait</string>
@@ -56,28 +56,15 @@
         <string>UIInterfaceOrientationLandscapeRight</string>
     </array>
 
+    <!-- Performance -->
     <key>CADisableMinimumFrameDurationOnPhone</key>
     <true/>
-
     <key>UIApplicationSupportsIndirectInputEvents</key>
     <true/>
 
-    <!-- ✅ iOS Permission Descriptions -->
-
+    <!-- iOS Permission Descriptions -->
     <key>NSLocationWhenInUseUsageDescription</key>
     <string>This app needs access to your location to show map and GPS-based features.</string>
- 
-    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-    <string>This app needs your location even in the background for navigation features.</string>
-
-    <key>NSCameraUsageDescription</key>
-    <string>This app uses the camera to scan QR codes and take pictures.</string>
-
-    <key>NSMicrophoneUsageDescription</key>
-    <string>This app uses the microphone for voice features.</string>
-
-    <key>NSPhotoLibraryUsageDescription</key>
-    <string>This app accesses your photo library to save and select pictures.</string>
 
     <key>NSFaceIDUsageDescription</key>
     <string>This app uses Face ID for secure login.</string> 
@@ -85,16 +72,7 @@
     <key>NSUserNotificationUsageDescription</key>
     <string>This app would like to send you notifications.</string>
 
-    <!-- ✅ Local Network Debugging (Dart VM service) -->
-    <key>NSLocalNetworkUsageDescription</key>
-    <string>This app uses the local network for debugging and development purposes.</string>
-
-    <key>NSBonjourServices</key>
-    <array>
-        <string>_dartobservatory._tcp</string>
-    </array>
-
-    <!-- ✅ Export Compliance / Encryption Declaration -->
+    <!-- Export Compliance / Encryption Declaration -->
     <key>ITSAppUsesNonExemptEncryption</key>
     <false/>
 </dict>

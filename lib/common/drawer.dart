@@ -1,129 +1,73 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart'; // Import GetX correctly
-import 'package:hrapp/controller/Tabcontroller.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:hrapp/Login/NewLoginScreen.dart';
+import 'package:hrapp/controller/LoginController.dart';
+import 'package:hrapp/view/pages/Setting_screen.dart';
 
-class MyDrawer extends StatelessWidget {
-  const MyDrawer({super.key});
+class AppDrawer extends StatelessWidget {
+  AppDrawer({super.key});
+
+  final controller = Get.put(Logincontroller());
+
+  final box = GetStorage();
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Drawer(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-        child: Column(
-          children: [
-            SizedBox(height: 50),
-            Row(
-              children: [
-                IconButton(onPressed: () {}, icon: Icon(Icons.logout_rounded)),
-                Text(
-                  "Logout",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
-                ),
-              ],
+    return Drawer(
+      child: Column(
+        children: [
+          // ===== HEADER =====
+          UserAccountsDrawerHeader(
+            decoration: const BoxDecoration(
+              color: Colors.blue,
             ),
-            SizedBox(height: 20),
-            Row(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    Get.bottomSheet(
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        color: Colors.blue,
-                        padding: EdgeInsets.all(
-                            16.0), // Add padding for better spacing
-                        child: Column(
-                          mainAxisSize: MainAxisSize
-                              .min, // Ensure it takes only necessary height
-                          children: [
-                            TextFormField(
-                              decoration: InputDecoration(
-                                labelText: 'Old Password',
-                                fillColor: Colors.white,
-                                filled: true,
-                              ),
-                              obscureText: true, // Hide the password input
-                            ),
-                            SizedBox(height: 10), // Space between fields
-                            TextFormField(
-                              decoration: InputDecoration(
-                                labelText: 'New Password',
-                                fillColor: Colors.white,
-                                filled: true,
-                              ),
-                              obscureText: true, // Hide the password input
-                            ),
-                            SizedBox(height: 10), // Space between fields
-                            TextFormField(
-                              decoration: InputDecoration(
-                                labelText: 'Confirm New Password',
-                                fillColor: Colors.white,
-                                filled: true,
-                              ),
-                              obscureText: true, // Hide the password input
-                            ),
-                            SizedBox(height: 20), // Space before button
+            accountName: Text(""),
+            accountEmail: Text(""),
+            currentAccountPicture: const CircleAvatar(
+              backgroundColor: Colors.white,
+              child: Icon(Icons.person, size: 40),
+            ),
+          ),
 
-                            TextButton(
-                                onPressed: () {
-                                  Get.snackbar(
-                                    'SUCCESS',
-                                    "Password successfully changed",
-                                    backgroundColor: Colors.green,
-                                    colorText: Colors.white,
-                                  );
-                                },
-                                child: Text("test"))
-                          ],
-                        ),
-                      ),
-                      isDismissible: true, // Allows dismissing the bottom sheet
-                      enableDrag: true, // Allows dragging to dismiss
-                    );
-                  },
-                  icon: Icon(Icons.password),
-                ),
-                Text(
-                  "Password Change",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
-                ),
-              ],
+          // ===== SETTINGS =====
+          ListTile(
+            leading: const Icon(Icons.settings),
+            title: const Text("Settings"),
+            onTap: () {
+              Get.to(() => SettingsPage());
+              Get.snackbar("Settings", "Open settings page");
+              // Get.to(() => SettingsPage());
+            },
+          ),
+
+          // ===== ABOUT =====
+          ListTile(
+            leading: const Icon(Icons.info_outline),
+            title: const Text("About"),
+            onTap: () {
+              Get.back();
+              Get.snackbar("About", "App version 1.0.0");
+              // Get.to(() => AboutPage());
+            },
+          ),
+
+          // ===== LOGOUT =====
+          ListTile(
+            leading: const Icon(Icons.logout, color: Colors.red),
+            title: const Text(
+              "Logout",
+              style: TextStyle(color: Colors.red),
             ),
-            SizedBox(height: 20),
-            InkWell(
-              onTap: () {
-                Get.changeTheme(ThemeData.dark());
-              },
-              child: Row(
-                children: [
-                  IconButton(
-                    onPressed: () {},
-                    icon: Icon(Icons.dark_mode),
-                  ),
-                  Text(
-                    "Dark Mode",
-                    style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
-                  ),
-                ],
-              ),
-            ),
-            Row(
-              children: [
-                IconButton(
-                  onPressed: () {
-                    Get.changeTheme(ThemeData.light());
-                  },
-                  icon: Icon(Icons.light_mode),
-                ),
-                Text(
-                  "Light Mode",
-                  style: TextStyle(fontSize: 22, fontWeight: FontWeight.w500),
-                ),
-              ],
-            ),
-          ],
-        ),
+            onTap: () {
+              controller.box.remove("UserId");
+
+              controller.box.remove("isauth");
+
+              Get.off(() => Newloginscreen());
+            },
+          ),
+        ],
       ),
     );
   }

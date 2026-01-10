@@ -28,6 +28,7 @@ class UserData {
   String? nationality;
   String? department;
   String? designation;
+  bool? isactive;
 
   UserData(
       {this.id,

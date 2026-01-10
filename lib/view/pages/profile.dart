@@ -18,7 +18,6 @@ class ProfilePage extends StatelessWidget {
         ),
         backgroundColor: Colors.green[400],
       ),
-      drawer: MyDrawer(),
       body: SingleChildScrollView(
         child: Column(
           children: [

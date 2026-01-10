@@ -71,9 +71,28 @@ class Logincontroller extends GetxController {
           userData.gender = extractedData["userData"]["Gender"];
           userData.department = extractedData["userData"]["Department"];
           userData.designation = extractedData["userData"]["Designation"];
+          bool isactive =
+              userData.isactive = extractedData["userData"]["Isactive"];
           loginmodelReponse.userData = userData;
 
           box.write("UserId", userData.id!);
+
+          if (isactive == false) {
+            Get.snackbar(
+              "Account Disabled",
+              "Please contact admin",
+              snackPosition: SnackPosition.top,
+              backgroundColor: Colors.red, // ✅ error color
+              colorText: Colors.white,
+              icon: const Icon(
+                Icons.error_outline, // ✅ error icon
+                color: Colors.white,
+              ),
+              duration: const Duration(seconds: 3),
+            );
+
+            return; // ⛔ STOP HERE
+          }
 
           // final Empid = box.read("UserId");
           Get.snackbar(
